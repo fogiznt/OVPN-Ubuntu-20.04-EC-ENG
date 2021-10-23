@@ -160,14 +160,14 @@ cat >>index.html <<EOF
   <title></title>
 </head>
 <body>
- <a href="/clients">Клиенты</a>
+ <a href="/clients">Clients</a>
 </body>
 </html>
 EOF
 if ! [ "$(systemctl status apache2 | grep -o "running" )" = "running" ]; then
-echo -e "${RED}ошибка, файлы для подключения будут лежать в директории /root/${DEFAULT}"
+echo -e "${RED}error, files for connection will be in the /root/ directory ${DEFAULT}"
 else
-echo -e "${GREEN}запущен${DEFAULT}"
+echo -e "${GREEN}launched${DEFAULT}"
 fi
 
 cd ~
@@ -181,39 +181,39 @@ DEFAULT='\033[0m'
 f=1
 while f=1
 do
-echo -e "\n\${DEFAULT}Настройка пользователей VPN\nВыберите действие\${DEFAULT}
+echo -e "\n\${DEFAULT}Configuring VPN Users\nSelect an Action\${DEFAULT}
 \${GREEN}---------------------------------------\${DEFAULT}
-\${DEFAULT}1 - Список учётных записей VPN        \033[0;32m|\${DEFAULT}
-\${DEFAULT}2 - Список подключённых пользователей \033[0;32m|\${DEFAULT}
-\${DEFAULT}3 - Пароли от архивов                 \033[0;32m|\${DEFAULT}
-\${DEFAULT}4 - Заблокировать пользователя        \033[0;32m|\${DEFAULT}
-\${DEFAULT}5 - Разблокировать пользователя       \033[0;32m|\${DEFAULT}
-\${DEFAULT}6 - Добавить учётную запись           \033[0;32m|\${DEFAULT}
-\${DEFAULT}7 - Удалить учётную запись            \033[0;32m|\${DEFAULT}
-\${DEFAULT}8 - Выйти из программы\${DEFAULT}                \033[0;32m|\${DEFAULT}
+\${DEFAULT}1 - VPN Account List                 \033[0;32m|\${DEFAULT}
+\${DEFAULT}2 - List of connected users          \033[0;32m|\${DEFAULT}
+\${DEFAULT}3 - Archive passwords                \033[0;32m|\${DEFAULT}
+\${DEFAULT}4 - Block user                       \033[0;32m|\${DEFAULT}
+\${DEFAULT}5 - Unblock user                     \033[0;32m|\${DEFAULT}
+\${DEFAULT}6 - Add account                      \033[0;32m|\${DEFAULT}
+\${DEFAULT}7 - Delete account                   \033[0;32m|\${DEFAULT}
+\${DEFAULT}8 - Exit the program  \${DEFAULT}                \033[0;32m|\${DEFAULT}
 \${GREEN}---------------------------------------\${DEFAULT}"
 read value
 case "\$value" in
 1) 
-echo -e "\${GREEN}Список учётных записей для подключения:\${DEFAULT}"
+echo -e "\${GREEN}List of accounts to connect: \${DEFAULT}"
 if [ "\$(ls /etc/openvpn/ccd/)" = "" ];
-then echo -e "\${GREEN}Учётных записей для подключения нет.Добавте новые\${DEFAULT}";
-else echo -e "\${GREEN}Открытые пользователи:\${DEFAULT}"
+then echo -e "\${GREEN}There are no accounts to connect. Add new ones\${DEFAULT}";
+else echo -e "\${GREEN}Open users: \${DEFAULT}"
 
         if ! [ "\$(wc -l /etc/openvpn/ccd/* | grep -w "1")" = "" ];
         then grep -H -o "10.8.*" \$(wc -l /etc/openvpn/ccd/* | grep -w "1" | awk '{print \$2}') | cut -b 18- | awk '{print \$1}' | sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
         fi
 
-echo -e "\${RED}Заблокированные пользователи:\${DEFAULT}"
+echo -e "\${RED}Blocked users: \${DEFAULT}"
 grep -H -B1 "disable" /etc/openvpn/ccd/* | grep -v "disable" | sed 's/-ifconfig-push /:/' | cut -b 18- | awk '{print \$1}' | sed '/^\$/d' | sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
 fi;;
 2)
-echo -e "\${GREEN}Список подключённых пользователей:\n\${DEFAULT}"
+echo -e "\${GREEN}List of connected users:\n\${DEFAULT}"
 if [ "\$(cat /etc/openvpn/status.log | grep 10.8.*)" = "" ];
-then echo -e "\${GREEN}Нет подключённых пользователей\${DEFAULT}"
+then echo -e "\${GREEN}No connected users\${DEFAULT}"
 else
-echo -e "\${DEFAULT}|Локальный ip|   Аккаунт    |Время подключения|   ip пользователя   |\${DEFAULT}"
-echo "|------------|--------------|-----------------|---------------------|"
+echo -e "\${DEFAULT}|  Local ip  |   Account    | Connection time |       user ip       |\${DEFAULT}"
+echo "              |------------|--------------|-----------------|---------------------|"
 for (( i=1;i<\$(cat /etc/openvpn/status.log | grep 10.8.8.* | wc -l)+1;i++ ))
 do
 echo -n "|\$(printf " %10s " \$(cat /etc/openvpn/status.log | grep "10.8.8.*" | sed -n ''\$i'p'| sed 's/,/ /g' | awk '{print \$1}'))|"
@@ -222,29 +222,21 @@ echo -n "\$(printf "%16s " "\$(grep "\$(cat /etc/openvpn/status.log | grep "10.8
 echo "\$(printf "%17s    " \$(cat /etc/openvpn/status.log | grep "10.8.8.*" |sed -n ''\$i'p'| sed 's/,/ /g' | awk '{print \$3}'| sed 's/:/ /g' | awk '{print \$1}'))|"
 done
 fi
-
-
-#echo "\${GREEN}Список подключёных пользователей:\${DEFAULT}"
-#if [ "\$(cat /etc/openvpn/status.log | grep 10.8.*)" = "" ];
-#then echo "\${GREEN}Нет подключённых пользователей\${DEFAULT}"
-#else echo "\${GREEN}Локальный ip,учётка,ip адрес пользователя\${DEFAULT}"
-#cat /etc/openvpn/status.log | grep 10.8.8
-#fi
 ;;
 3)
-echo -e "\${GREEN}Логин/пароль от архивов\${DEFAULT}"
+echo -e "\${GREEN}Login/password from archives \${DEFAULT}"
 cat /etc/openvpn/passwords;;
 4)
-echo -e "\${GREEN}Блокировка учётной записи\${DEFAULT}\nВведите имя учётной записи\n"
+echo -e "\${GREEN}Account locking\${DEFAULT}\nEnter account name\n"
 
 if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ];
-then echo -e "\${GREEN}Открытые пользователи:\${DEFAULT}"
+then echo -e "\${GREEN}Open users:\${DEFAULT}"
 
         if ! [ "\$(wc -l /etc/openvpn/ccd/* | grep -w "1")" = "" ];
         then grep -H -o "10.8.*" \$(wc -l /etc/openvpn/ccd/* | grep -w "1" | awk '{print \$2}') | cut -b 18- | awk '{print \$1}' | sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
         fi
 
-echo -e "\${RED}Заблокированные пользователи:\${DEFAULT}"
+echo -e "\${RED}Blocked users:\${DEFAULT}"
 grep -H -B1 "disable" /etc/openvpn/ccd/* | grep -v "disable" | sed 's/-ifconfig-push /:/' | cut -b 18- | awk '{print \$1}' | sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
 echo "---------------------------------------"
 fi
@@ -255,24 +247,24 @@ then
         if ! [ "\$(grep -o "disable" /etc/openvpn/ccd/\$username)" = "disable" ];
         then
         echo "disable" >> /etc/openvpn/ccd/\$username
-        echo -e "\${GREEN}Учётная запись заблокирована\${DEFAULT}"
+        echo -e "\${GREEN}The account is blocked\${DEFAULT}"
         else
-        echo -e "\${RED}Учётная запись уже заблокирована\${DEFAULT}"
+        echo -e "\${RED}Account already blocked\${DEFAULT}"
         fi
 
-else echo -e "\${RED}Учётной записи не существует\${DEFAULT}"
+else echo -e "\${RED}Account does not exist\${DEFAULT}"
 fi;;
 5) 
-echo -e "\${GREEN}Разблокировка учётной записи\${DEFAULT}\nВведите имя учётной записи\n"
+echo -e "\${GREEN}Account unlocking\${DEFAULT}\nEnter your account name\n"
 
 if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ];
-then echo -e "\${GREEN}Открытые учётные записи:\${DEFAULT}"
+then echo -e "\${GREEN}Open users:\${DEFAULT}"
 
         if ! [ "\$(wc -l /etc/openvpn/ccd/* | grep -w "1")" = "" ];
         then grep -H -o "10.8.*" \$(wc -l /etc/openvpn/ccd/* | grep -w "1" | awk '{print \$2}') | cut -b 18- | awk '{print \$1}' | sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
         fi
 
-echo -e "\${RED}Заблокированные учётные записи:\${DEFAULT}"
+echo -e "\${RED}Blocked users:\${DEFAULT}"
 grep -H -B1 "disable" /etc/openvpn/ccd/* | grep -v "disable" | sed 's/-ifconfig-push /:/' | cut -b 18- | awk '{print \$1}' | sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
 echo "---------------------------------------"
 fi
@@ -283,47 +275,47 @@ then
         if [ "\$(grep -o "disable" /etc/openvpn/ccd/\$username)" = "disable" ];
         then
         sed -i /disable/d /etc/openvpn/ccd/\$username
-        echo -e "\${GREEN}Учётная запись разблокирована\${DEFAULT}"
+        echo -e "\${GREEN}Account unlocked\${DEFAULT}"
         else
-        echo -e "\${RED}Учётная запись уже разблокирована\${DEFAULT}"
+        echo -e "\${RED}Account already unlocked\${DEFAULT}"
         fi
 else
-echo -e "\${RED}Неправильно введено имя учётной записи\${DEFAULT}"
+echo -e "\${RED}Account name entered incorrectly\${DEFAULT}"
 fi;;
 
 6) 
-echo -e "\${GREEN}Добавление учётной записи\${DEFAULT}\nВведите имя учётной записи\n"
+echo -e "\${GREEN}Adding an account\${DEFAULT}\nEnter account name\n"
 if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ];
-then echo -e "\${GREEN}Открытые пользователи:\${DEFAULT}"
+then echo -e "\${GREEN}Open users:\${DEFAULT}"
 
         if ! [ "\$(wc -l /etc/openvpn/ccd/* | grep -w "1")" = "" ];
         then grep -H -o "10.8.*" \$(wc -l /etc/openvpn/ccd/* | grep -w "1" | awk '{print \$2}') | cut -b 18- | awk '{print \$1}' | sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
         fi
 
-echo -e "\${RED}Заблокированные пользователи:\${DEFAULT}"
+echo -e "\${RED}Blocked users:\${DEFAULT}"
 grep -H -B1 "disable" /etc/openvpn/ccd/* | grep -v "disable" | sed 's/-ifconfig-push /:/' | cut -b 18- | awk '{print \$1}' | sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
 echo "---------------------------------------"
 fi
 
 read username
-#echo "\${GREEN}Введите пароль\${DEFAULT}"
+#echo "\${GREEN}Enter password \${DEFAULT}"
 #read password
 password=\$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c\${1:-32};echo;)
-echo -e "\${GREEN}Введите локальный ip, к которому будет привязана учётная запись\${DEFAULT}"
+echo -e "\${GREEN}Enter the local ip to which the account will be linked\${DEFAULT}"
 
 if [ "\$(ls /etc/openvpn/ccd/)" = "" ];
-then echo -e "\${GREEN}Рекомендую использовать диапозон адресов 10.8.8.100 - 10.8.8.200\${DEFAULT}"
+then echo -e "\${GREEN}I recommend using the address range 10.8.8.100 - 10.8.8.200\${DEFAULT}"
 else
-echo -e "\${GREEN}Для сравнения - список назначенных учётным записям локальных ip адресов\${DEFAULT}"
+echo -e "\${GREEN}For comparison - a list of local ip addresses assigned to accounts\${DEFAULT}"
 
         if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ];
-        then echo -e "\${GREEN}Открытые пользователи:\${DEFAULT}"
+        then echo -e "\${GREEN}Open users:\${DEFAULT}"
 
                 if ! [ "\$(wc -l /etc/openvpn/ccd/* | grep -w "1")" = "" ];
                 then grep -H -o "10.8.*" \$(wc -l /etc/openvpn/ccd/* | grep -w "1" | awk '{print \$2}') | cut -b 18- | awk '{print \$1}' | sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
                 fi
 
-        echo -e "\${RED}Заблокированные пользователи:\${DEFAULT}"
+        echo -e "\${RED}Blocked users:\${DEFAULT}"
         grep -H -B1 "disable" /etc/openvpn/ccd/* | grep -v "disable" | sed 's/-ifconfig-push /:/' | cut -b 18- | awk '{print \$1}' | sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
         echo "---------------------------------------"
         fi
@@ -395,19 +387,19 @@ zip \$username.zip -P \$password  \$username.ovpn
 cp \$username.ovpn ~/
 cd /var/www/html/clients/
 mv /etc/openvpn/clients/\$username.zip .
-echo -e "\${GREEN} Пароль от архива \$username.zip - \$password \${DEFAULT}"
-echo -e "\${GREEN} Учётная запись добавлена\${DEFAULT}";;
+echo -e "\${GREEN} Archive password - \$username.zip - \$password \${DEFAULT}"
+echo -e "\${GREEN} Account added\${DEFAULT}";;
 7) 
-echo -e "\${RED}Удаление учётной записи\${DEFAULT}\nВведите имя учётной записи\n"
+echo -e "\${RED}Deleting an account\${DEFAULT}\nEnter account name\n"
 
 if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ];
-then echo -e "\${GREEN}Открытые пользователи:\${DEFAULT}"
+then echo -e "\${GREEN}Open users:\${DEFAULT}"
 
         if ! [ "\$(wc -l /etc/openvpn/ccd/* | grep -w "1")" = "" ];
         then grep -H -o "10.8.*" \$(wc -l /etc/openvpn/ccd/* | grep -w "1" | awk '{print \$2}') | cut -b 18- | awk '{print \$1}' |  sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
         fi
 
-echo -e "\${RED}Заблокированные пользователи:${DEFAULT}"
+echo -e "\${RED}Blocked users:${DEFAULT}"
 grep -H -B1 "disable" /etc/openvpn/ccd/* | grep -v "disable" | sed 's/-ifconfig-push /:/' | cut -b 18- | awk '{print \$1}' |  sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
 echo "---------------------------------------"
 fi
@@ -423,12 +415,12 @@ rm /etc/openvpn/ccd/\$username
 rm /usr/share/easy-rsa/pki/reqs/\$username.req
 rm /root/\$username.ovpn
 sed -i /\$username/d /etc/openvpn/passwords
-echo "\${GREEN} Учётная запись удалёна\${DEFAULT}"
+echo "\${GREEN} Account deleted\${DEFAULT}"
 
 else
-echo -e "\${RED}Неправильно введено имя учётной записи\${DEFAULT}"
+echo -e "\${RED}Account name entered incorrectly\${DEFAULT}"
 fi;;
-8)echo -e "\${GREEN} Выход из программы\${DEFAULT}"
+8)echo -e "\${GREEN} Exiting the program\${DEFAULT}"
 exit;;
 esac
 done
@@ -442,7 +434,7 @@ echo -e "/___/  /_//_//___/\__/ \_,_/ /_/  /_/       \__/ \___//_/_/_/ / .__//_/
 echo -e "                                                             /_/                               ";
 echo -e "                                                                                               ${DEFAULT}";
 
-echo -e "${DEFAULT}Основные параметры сервера:
+echo -e "${DEFAULT}Basic server parameters:
 public ip - $ip	 cipher - AES-128-GCM
 proto - udp4                    tls-crypt - enable
 port - 443                      tls version - 1.2
