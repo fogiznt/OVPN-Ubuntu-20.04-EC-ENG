@@ -79,7 +79,7 @@ echo -n -e "               TLS-crypt "
 openvpn --genkey --secret /etc/openvpn/tls.key
 if ! [ -f /etc/openvpn/tls.key ];then echo -e "${RED}ERROR, TLS keys not generated. ${DEFAULT}" exit;else echo -e "${GREEN}OK${DEFAULT}";fi
 
-echo -e "Окончание установки: "
+echo -e "End of installation: "
 echo -n -e "               OVPN-server "
 cd /etc/openvpn
 cat >>server.conf <<EOF
@@ -134,9 +134,9 @@ touch /etc/openvpn/passwords
 
 systemctl start openvpn@server
 if ! [ "$(systemctl status openvpn@server | grep -o "running" )" = "running" ]; then
-echo -e "${RED}ошибка, вы можете посмотреть причину - cat /etc/openvpn/log.log${DEFAULT}"
+echo -e "${RED}error, you can see the reason - cat /etc/openvpn/log.log${DEFAULT}"
 else 
-echo -e "${GREEN}запущен${DEFAULT}"
+echo -e "${GREEN}launched${DEFAULT}"
 fi
 systemctl enable openvpn@server >&- 2>&-
 
