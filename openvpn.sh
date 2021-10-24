@@ -15,7 +15,7 @@ echo -e "/ /_/ /  / _ \/ // / / _ \/ __// // /      / __/ / // / _ / // //_  _/"
 echo -e "\____/  /_.__/\_,_/ /_//_/\__/ \_,_/      /____/ \___/ (_)\___/  /_/  ";
 echo -e "                                                                      ${DEFAULT}";
 
-echo -n -e "${DEFAULT}Updating the package list  ${DEFAULT}" & echo -e ${GREEN} $(apt update 2>/dev/null | grep packages | cut -d '.' -f 1 | tr -cd '[[:digit:]]') "${DEFAULT}packages can be upgraded."
+echo -n -e "${DEFAULT}Updating the package list${DEFAULT}" & echo -e ${GREEN} $(apt update 2>/dev/null | grep packages | cut -d '.' -f 1 | tr -cd '[[:digit:]]') "${DEFAULT}packages can be upgraded."
 echo -e "Installing packages: "
 
 echo -n -e "               openvpn " & echo -n $(apt install openvpn -y >&- 2>&-)
