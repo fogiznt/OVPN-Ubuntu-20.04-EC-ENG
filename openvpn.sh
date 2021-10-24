@@ -357,8 +357,9 @@ echo -e "\${GREEN} Archive password - \$username.zip - \$password \${DEFAULT}"
 echo -e "\${GREEN} Account added\${DEFAULT}";;
 7) 
 echo -e "\${RED}Deleting an account\${DEFAULT}\nEnter account name\n"
-if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ];then user-list;fi
-
+user-list
+if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ];
+then 
 read username
 if  [ -e /etc/openvpn/ccd/\$username ];
 then
@@ -374,6 +375,7 @@ echo -e "\${GREEN} Account deleted\${DEFAULT}"
 
 else
 echo -e "\${RED}Account name entered incorrectly\${DEFAULT}"
+fi
 fi;;
 8)echo -e "\${GREEN} Exiting the program\${DEFAULT}"
 exit;;
