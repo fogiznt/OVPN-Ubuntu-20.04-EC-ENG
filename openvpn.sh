@@ -366,7 +366,6 @@ else
 echo -e "\${RED}Deleting an account\${DEFAULT}\nEnter account name\n"
 user-list
 
-then 
 read username
 if  [ -e /etc/openvpn/ccd/\$username ];
 then
