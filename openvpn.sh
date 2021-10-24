@@ -251,6 +251,7 @@ then
         fi
 
 else echo -e "\${RED}Account does not exist\${DEFAULT}"
+fi
 fi;;
 5) 
 if [ "\$(ls /etc/openvpn/ccd/)" = "" ];
@@ -270,6 +271,7 @@ then
         fi
 else
 echo -e "\${RED}Account name entered incorrectly\${DEFAULT}"
+fi
 fi;;
 
 6) 
