@@ -194,10 +194,11 @@ echo -e "\n\${DEFAULT}Configuring VPN Users\nSelect an Action\${DEFAULT}
 \${GREEN}---------------------------------------\${DEFAULT}"
 
 user-list(){
-echo "---------------------------------------"
 if [ "\$(ls /etc/openvpn/ccd/)" = "" ];
 then echo -e "\${GREEN}There are no accounts to connect. Add new ones\${DEFAULT}";
-else echo -e "\${GREEN}Open users:\${DEFAULT}"
+else 
+echo "---------------------------------------"
+echo -e "\${GREEN}Open users:\${DEFAULT}"
 
         if ! [ "\$(wc -l /etc/openvpn/ccd/* | grep -w "1")" = "" ];
         then grep -H -o "10.8.*" \$(wc -l /etc/openvpn/ccd/* | grep -w "1" | awk '{print \$2}') | cut -b 18- | awk '{print \$1}' | sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
