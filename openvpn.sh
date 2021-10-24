@@ -192,21 +192,27 @@ echo -e "\n\${DEFAULT}Configuring VPN Users\nSelect an Action\${DEFAULT}
 \${DEFAULT}7 - Delete account                   \033[0;32m|\${DEFAULT}
 \${DEFAULT}8 - Exit the program  \${DEFAULT}                \033[0;32m|\${DEFAULT}
 \${GREEN}---------------------------------------\${DEFAULT}"
-read value
-case "\$value" in
-1) 
-echo -e "\${GREEN}List of accounts to connect: \${DEFAULT}"
+
+user-list(){
+echo "---------------------------------------"
 if [ "\$(ls /etc/openvpn/ccd/)" = "" ];
 then echo -e "\${GREEN}There are no accounts to connect. Add new ones\${DEFAULT}";
-else echo -e "\${GREEN}Open users: \${DEFAULT}"
+else echo -e "\${GREEN}Open users:\${DEFAULT}"
 
         if ! [ "\$(wc -l /etc/openvpn/ccd/* | grep -w "1")" = "" ];
         then grep -H -o "10.8.*" \$(wc -l /etc/openvpn/ccd/* | grep -w "1" | awk '{print \$2}') | cut -b 18- | awk '{print \$1}' | sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
         fi
-
-echo -e "\${RED}Blocked users: \${DEFAULT}"
+        
+echo -e "\${RED}Blocked users:\${DEFAULT}"
 grep -H -B1 "disable" /etc/openvpn/ccd/* | grep -v "disable" | sed 's/-ifconfig-push /:/' | cut -b 18- | awk '{print \$1}' | sed '/^\$/d' | sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
-fi;;
+echo "---------------------------------------"
+fi
+}
+
+read value
+case "\$value" in
+1) 
+if [ "\$(ls /etc/openvpn/ccd/)" = "" ]; then user-list;fi;;
 2)
 echo -e "\${GREEN}List of connected users:\n\${DEFAULT}"
 if [ "\$(cat /etc/openvpn/status.log | grep 10.8.*)" = "" ];
@@ -229,17 +235,7 @@ cat /etc/openvpn/passwords;;
 4)
 echo -e "\${GREEN}Account locking\${DEFAULT}\nEnter account name\n"
 
-if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ];
-then echo -e "\${GREEN}Open users:\${DEFAULT}"
-
-        if ! [ "\$(wc -l /etc/openvpn/ccd/* | grep -w "1")" = "" ];
-        then grep -H -o "10.8.*" \$(wc -l /etc/openvpn/ccd/* | grep -w "1" | awk '{print \$2}') | cut -b 18- | awk '{print \$1}' | sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
-        fi
-
-echo -e "\${RED}Blocked users:\${DEFAULT}"
-grep -H -B1 "disable" /etc/openvpn/ccd/* | grep -v "disable" | sed 's/-ifconfig-push /:/' | cut -b 18- | awk '{print \$1}' | sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
-echo "---------------------------------------"
-fi
+if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ];then user-list;fi
 
 read username
 if  [ -e /etc/openvpn/ccd/\$username ];
@@ -257,17 +253,7 @@ fi;;
 5) 
 echo -e "\${GREEN}Account unlocking\${DEFAULT}\nEnter your account name\n"
 
-if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ];
-then echo -e "\${GREEN}Open users:\${DEFAULT}"
-
-        if ! [ "\$(wc -l /etc/openvpn/ccd/* | grep -w "1")" = "" ];
-        then grep -H -o "10.8.*" \$(wc -l /etc/openvpn/ccd/* | grep -w "1" | awk '{print \$2}') | cut -b 18- | awk '{print \$1}' | sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
-        fi
-
-echo -e "\${RED}Blocked users:\${DEFAULT}"
-grep -H -B1 "disable" /etc/openvpn/ccd/* | grep -v "disable" | sed 's/-ifconfig-push /:/' | cut -b 18- | awk '{print \$1}' | sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
-echo "---------------------------------------"
-fi
+if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ];then user-list;fi
 
 read username
 if [ -e /etc/openvpn/ccd/\$username ];
@@ -285,17 +271,7 @@ fi;;
 
 6) 
 echo -e "\${GREEN}Adding an account\${DEFAULT}\nEnter account name\n"
-if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ];
-then echo -e "\${GREEN}Open users:\${DEFAULT}"
-
-        if ! [ "\$(wc -l /etc/openvpn/ccd/* | grep -w "1")" = "" ];
-        then grep -H -o "10.8.*" \$(wc -l /etc/openvpn/ccd/* | grep -w "1" | awk '{print \$2}') | cut -b 18- | awk '{print \$1}' | sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
-        fi
-
-echo -e "\${RED}Blocked users:\${DEFAULT}"
-grep -H -B1 "disable" /etc/openvpn/ccd/* | grep -v "disable" | sed 's/-ifconfig-push /:/' | cut -b 18- | awk '{print \$1}' | sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
-echo "---------------------------------------"
-fi
+if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ];then user-list;fi
 
 read username
 #echo "\${GREEN}Enter password \${DEFAULT}"
@@ -307,18 +283,7 @@ if [ "\$(ls /etc/openvpn/ccd/)" = "" ];
 then echo -e "\${GREEN}I recommend using the address range 10.8.8.100 - 10.8.8.200\${DEFAULT}"
 else
 echo -e "\${GREEN}For comparison - a list of local ip addresses assigned to accounts\${DEFAULT}"
-
-        if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ];
-        then echo -e "\${GREEN}Open users:\${DEFAULT}"
-
-                if ! [ "\$(wc -l /etc/openvpn/ccd/* | grep -w "1")" = "" ];
-                then grep -H -o "10.8.*" \$(wc -l /etc/openvpn/ccd/* | grep -w "1" | awk '{print \$2}') | cut -b 18- | awk '{print \$1}' | sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
-                fi
-
-        echo -e "\${RED}Blocked users:\${DEFAULT}"
-        grep -H -B1 "disable" /etc/openvpn/ccd/* | grep -v "disable" | sed 's/-ifconfig-push /:/' | cut -b 18- | awk '{print \$1}' | sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
-        echo "---------------------------------------"
-        fi
+        if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ];then user-list;fi 
 fi
 
 
@@ -391,18 +356,7 @@ echo -e "\${GREEN} Archive password - \$username.zip - \$password \${DEFAULT}"
 echo -e "\${GREEN} Account added\${DEFAULT}";;
 7) 
 echo -e "\${RED}Deleting an account\${DEFAULT}\nEnter account name\n"
-
-if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ];
-then echo -e "\${GREEN}Open users:\${DEFAULT}"
-
-        if ! [ "\$(wc -l /etc/openvpn/ccd/* | grep -w "1")" = "" ];
-        then grep -H -o "10.8.*" \$(wc -l /etc/openvpn/ccd/* | grep -w "1" | awk '{print \$2}') | cut -b 18- | awk '{print \$1}' |  sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
-        fi
-
-echo -e "\${RED}Blocked users:${DEFAULT}"
-grep -H -B1 "disable" /etc/openvpn/ccd/* | grep -v "disable" | sed 's/-ifconfig-push /:/' | cut -b 18- | awk '{print \$1}' |  sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4
-echo "---------------------------------------"
-fi
+if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ];then suer-list;fi
 
 read username
 if  [ -e /etc/openvpn/ccd/\$username ];
