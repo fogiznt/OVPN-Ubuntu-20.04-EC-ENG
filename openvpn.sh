@@ -213,7 +213,7 @@ fi
 read value
 case "\$value" in
 1) 
-if [ "\$(ls /etc/openvpn/ccd/)" = "" ]; then user-list;fi;;
+if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ]; then user-list;fi;;
 2)
 echo -e "\${GREEN}List of connected users:\n\${DEFAULT}"
 if [ "\$(cat /etc/openvpn/status.log | grep 10.8.*)" = "" ];
