@@ -370,7 +370,7 @@ rm /etc/openvpn/ccd/\$username
 rm /usr/share/easy-rsa/pki/reqs/\$username.req
 rm /root/\$username.ovpn
 sed -i /\$username/d /etc/openvpn/passwords
-echo "\${GREEN} Account deleted\${DEFAULT}"
+echo -e "\${GREEN} Account deleted\${DEFAULT}"
 
 else
 echo -e "\${RED}Account name entered incorrectly\${DEFAULT}"
