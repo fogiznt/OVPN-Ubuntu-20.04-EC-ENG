@@ -191,7 +191,7 @@ echo -e "\n\${DEFAULT}Configuring VPN Users\nSelect an Action\${DEFAULT}
 \${DEFAULT}6 - Add account                   \033[0;32m|\${DEFAULT}
 \${DEFAULT}7 - Delete account                \033[0;32m|\${DEFAULT}
 \${DEFAULT}8 - Exit the program              \033[0;32m|\${DEFAULT}
-\${GREEN}---------------------------------------\${DEFAULT}"
+\${GREEN}-----------------------------------\${DEFAULT}"
 
 user-list(){
 if [ "\$(ls /etc/openvpn/ccd/)" = "" ];
