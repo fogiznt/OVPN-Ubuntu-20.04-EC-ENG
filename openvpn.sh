@@ -182,15 +182,15 @@ f=1
 while f=1
 do
 echo -e "\n\${DEFAULT}Configuring VPN Users\nSelect an Action\${DEFAULT}
-\${GREEN}---------------------------------------\${DEFAULT}
-\${DEFAULT}1 - VPN Account List                 \033[0;32m|\${DEFAULT}
-\${DEFAULT}2 - List of connected users          \033[0;32m|\${DEFAULT}
-\${DEFAULT}3 - Archive passwords                \033[0;32m|\${DEFAULT}
-\${DEFAULT}4 - Block user                       \033[0;32m|\${DEFAULT}
-\${DEFAULT}5 - Unblock user                     \033[0;32m|\${DEFAULT}
-\${DEFAULT}6 - Add account                      \033[0;32m|\${DEFAULT}
-\${DEFAULT}7 - Delete account                   \033[0;32m|\${DEFAULT}
-\${DEFAULT}8 - Exit the program  \${DEFAULT}                \033[0;32m|\${DEFAULT}
+\${GREEN}-----------------------------------\${DEFAULT}
+\${DEFAULT}1 - VPN Account List              \033[0;32m|\${DEFAULT}
+\${DEFAULT}2 - List of connected users       \033[0;32m|\${DEFAULT}
+\${DEFAULT}3 - Archive passwords             \033[0;32m|\${DEFAULT}
+\${DEFAULT}4 - Block user                    \033[0;32m|\${DEFAULT}
+\${DEFAULT}5 - Unblock user                  \033[0;32m|\${DEFAULT}
+\${DEFAULT}6 - Add account                   \033[0;32m|\${DEFAULT}
+\${DEFAULT}7 - Delete account                \033[0;32m|\${DEFAULT}
+\${DEFAULT}8 - Exit the program              \033[0;32m|\${DEFAULT}
 \${GREEN}---------------------------------------\${DEFAULT}"
 
 user-list(){
