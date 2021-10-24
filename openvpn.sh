@@ -213,7 +213,7 @@ fi
 read value
 case "\$value" in
 1) 
-if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ]; then user-list;fi;;
+user-list;;
 2)
 echo -e "\${GREEN}List of connected users:\n\${DEFAULT}"
 if [ "\$(cat /etc/openvpn/status.log | grep 10.8.*)" = "" ];
@@ -357,7 +357,7 @@ echo -e "\${GREEN} Archive password - \$username.zip - \$password \${DEFAULT}"
 echo -e "\${GREEN} Account added\${DEFAULT}";;
 7) 
 echo -e "\${RED}Deleting an account\${DEFAULT}\nEnter account name\n"
-if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ];then suer-list;fi
+if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ];then user-list;fi
 
 read username
 if  [ -e /etc/openvpn/ccd/\$username ];
