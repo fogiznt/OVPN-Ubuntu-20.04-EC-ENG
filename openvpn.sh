@@ -234,9 +234,10 @@ fi
 echo -e "\${GREEN}Login/password from archives \${DEFAULT}"
 cat /etc/openvpn/passwords;;
 4)
+if [ "\$(ls /etc/openvpn/ccd/)" = "" ];
+then user-list
+else user-list
 echo -e "\${GREEN}Account locking\${DEFAULT}\nEnter account name\n"
-
-if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ];then user-list;fi
 
 read username
 if  [ -e /etc/openvpn/ccd/\$username ];
@@ -252,9 +253,10 @@ then
 else echo -e "\${RED}Account does not exist\${DEFAULT}"
 fi;;
 5) 
+if [ "\$(ls /etc/openvpn/ccd/)" = "" ];
+then user-list
+else user-list
 echo -e "\${GREEN}Account unlocking\${DEFAULT}\nEnter your account name\n"
-
-if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ];then user-list;fi
 
 read username
 if [ -e /etc/openvpn/ccd/\$username ];
