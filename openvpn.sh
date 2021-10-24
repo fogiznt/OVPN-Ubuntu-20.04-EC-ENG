@@ -356,9 +356,12 @@ mv /etc/openvpn/clients/\$username.zip .
 echo -e "\${GREEN} Archive password - \$username.zip - \$password \${DEFAULT}"
 echo -e "\${GREEN} Account added\${DEFAULT}";;
 7) 
+if [ "\$(ls /etc/openvpn/ccd/)" = "" ];
+then user-list
+else
 echo -e "\${RED}Deleting an account\${DEFAULT}\nEnter account name\n"
 user-list
-if ! [ "\$(ls /etc/openvpn/ccd/)" = "" ];
+
 then 
 read username
 if  [ -e /etc/openvpn/ccd/\$username ];
