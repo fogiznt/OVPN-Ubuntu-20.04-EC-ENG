@@ -15,7 +15,7 @@ echo -e "/ /_/ /  / _ \/ // / / _ \/ __// // /      / __/ / // / _ / // //_  _/"
 echo -e "\____/  /_.__/\_,_/ /_//_/\__/ \_,_/      /____/ \___/ (_)\___/  /_/  ";
 echo -e "                                                                      ${DEFAULT}";
 
-echo -n -e "${DEFAULT}Updating the package list ${DEFAULT}" & echo -e ${GREEN} $(apt update 2>/dev/null | grep packages | cut -d '.' -f 1 | tr -cd '[[:digit:]]') "${DEFAULT}packages can be upgraded."
+echo -n -e "${DEFAULT}Updating the package list  ${DEFAULT}" & echo -e ${GREEN} $(apt update 2>/dev/null | grep packages | cut -d '.' -f 1 | tr -cd '[[:digit:]]') "${DEFAULT}packages can be upgraded."
 echo -e "Installing packages: "
 
 echo -n -e "               openvpn " & echo -n $(apt install openvpn -y >&- 2>&-)
@@ -57,12 +57,12 @@ export EASYRSA_BATCH=1
 cp pki/ca.crt /etc/openvpn/
 if ! [ -f /etc/openvpn/ca.crt ];then echo -e "${RED}ERROR, CA certificate not generated. ${DEFAULT}" exit;else echo -e "${GREEN}OK${DEFAULT}";fi
 
-echo -n -e "                Server certificate  "
+echo -n -e "               Server certificate  "
 ./easyrsa build-server-full server nopass >&- 2>&-
 cp pki/private/server.key /etc/openvpn
 cp pki/issued/server.crt /etc/openvpn
 if ! [ -f /etc/openvpn/server.key ];then echo -e "${RED}ERROR, server certificate not generated. ${DEFAULT}" exit;else echo -e "${GREEN}OK${DEFAULT}"; fi
-echo -n -e "                Server key  "
+echo -n -e "               Server key  "
 if ! [ -f /etc/openvpn/server.crt ];then echo -e "${RED}ERROR, server key not generated. ${DEFAULT}" exit;else echo -e "${GREEN}OK${DEFAULT}";fi
 
 #echo -n -e "               Diffie-Hellman Keys  "
@@ -389,7 +389,7 @@ echo -e "                                                             /_/       
 echo -e "                                                                                               ${DEFAULT}";
 
 echo -e "${DEFAULT}Basic server parameters:
-public ip - $ip	 cipher - AES-128-GCM
+public ip - $ip	cipher - AES-128-GCM
 proto - udp4                    tls-crypt - enable
 port - 443                      tls version - 1.2
 ip in VPN network - 10.8.8.1    tls-cipher - TLS-ECDHE-ECDSA-WITH-AES-256-GCM-SHA384
