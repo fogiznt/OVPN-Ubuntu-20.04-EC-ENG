@@ -401,7 +401,7 @@ echo -e "${DEFAULT}Basic server parameters:
 public ip - $ip	cipher - AES-128-GCM
 proto - udp4                    tls-crypt - enable
 port - 443                      tls version - 1.2
-ip in VPN network - 10.8.8.1    tls-cipher - TLS-ECDHE-ECDSA-WITH-AES-256-GCM-SHA256
+ip in VPN network - 10.8.8.1    tls-cipher - TLS-ECDHE-ECDSA-WITH-AES-128-GCM-SHA256
 DNS for clients - 1.1.1.1       auth - SHA256
 mode - tun                      ecdh-curve - prime256v1     
     ${DEFAULT}"
