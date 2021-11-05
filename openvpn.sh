@@ -94,6 +94,7 @@ key server.key
 dh none
 
 cipher AES-128-GCM
+ncp-ciphers AES-128-GCM
 auth SHA256
 
 tls-version-min 1.2
